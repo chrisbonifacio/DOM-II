@@ -1,5 +1,4 @@
 // Your code goes here
-const logo = document.querySelector(".logo-heading");
 const navLinks = document.querySelectorAll(".nav a");
 const body = document.body;
 
@@ -8,8 +7,13 @@ body.addEventListener("scroll", e => {
 });
 
 // Mouseover
-logo.addEventListener("mouseover", () => {
-  TweenMax.to(logo, 1.5, { rotation: 360 });
+const header = document.querySelector("header");
+const contentImg = document.querySelectorAll(".img-content");
+
+header.style.zIndex = 2;
+
+header.addEventListener("mouseenter", e => {
+  TweenMax.to(header, 1, { backgroundColor: "#7ebfc3" });
 });
 
 navLinks.forEach(x => {
@@ -26,17 +30,34 @@ navLinks.forEach(x => {
 
 // Keydown
 document.body.addEventListener("keydown", e => {
-  console.log(e.code);
+  TweenMax.to(contentImg, 1, { scale: 1.3, ease: Power2.easeInOut, repeat: 2 });
 });
 
 // Wheel
-const contentImg = document.querySelectorAll(".img-content");
-
-console.log(contentImg);
 
 contentImg.forEach(x => {
-  x.addEventListener("drag", e => {
+  x.addEventListener("wheel", e => {
     e.preventDefault();
-    TweenMax.to(contentImg, 2, { x: e.x, y: e.y });
+    TweenMax.to(contentImg, 2, { y: -50 });
+  });
+});
+
+// Load
+const logo = document.querySelector(".logo-heading");
+
+window.addEventListener("load", x => {
+  TweenMax.to(logo, 1.5, { rotation: 360 });
+  TweenMax.from(contentImg, 2, { opacity: 0, x: -60 });
+  TweenMax.to(contentImg, 2, {
+    opacity: 1,
+    y: 0
+  });
+});
+
+// Drag
+contentImg.forEach(x => {
+  x.addEventListener("drag", e => {
+    TweenMax.to(contentImg, 2, { x: e.clientX, y: e.clientY });
+    console.log(e);
   });
 });
