@@ -60,7 +60,9 @@
         <div class="img-content">
           <img
             draggable="true"
-            ondragover="allowDrop(event)"
+            ondragstart="dragstart_handler(event);"
+            ondragover="dragover_handler(event);"
+            ondrop="drop_handler(event);"
             src="img/adventure.jpg"
             alt="Let's go on an adventure!"
           />
@@ -70,6 +72,9 @@
         <div class="img-content">
           <img
             draggable="true"
+            ondragstart="dragstart_handler(event);"
+            ondragover="dragover_handler(event);"
+            ondrop="drop_handler(event);"
             src="img/fun.jpg"
             class="img-fluid rounded"
             alt="Lets have fun!"

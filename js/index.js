@@ -1,19 +1,42 @@
 // Your code goes here
-const navLinks = document.querySelectorAll(".nav a");
+
+// Body
 const body = document.body;
+
+// Header
+const header = document.querySelector("header");
+header.style.zIndex = 2;
+
+// Nav Bar
+const navLinks = document.querySelectorAll(".nav a");
+
+// Logo
+const logo = document.querySelector(".logo-heading");
+
+// Content Img
+const imgContainer = document.querySelectorAll(".img-content");
+
+// Content Img
+const contentImg = document.querySelectorAll(".img-content img");
+
+// Text Content
+const textContent = document.querySelectorAll(".text-content");
 
 body.addEventListener("scroll", e => {
   console.log(e);
 });
 
 // Mouseover
-const header = document.querySelector("header");
-const contentImg = document.querySelectorAll(".img-content");
-
-header.style.zIndex = 2;
 
 header.addEventListener("mouseenter", e => {
   TweenMax.to(header, 1, { backgroundColor: "#7ebfc3" });
+});
+
+header.addEventListener("mouseleave", e => {
+  if (window.pageYOffset === 0) {
+    TweenMax.to(header, 1, { backgroundColor: "#fff" });
+  }
+  e.stopPropagation();
 });
 
 navLinks.forEach(x => {
@@ -30,20 +53,34 @@ navLinks.forEach(x => {
 
 // Keydown
 document.body.addEventListener("keydown", e => {
-  TweenMax.to(contentImg, 1, { scale: 1.3, ease: Power2.easeInOut, repeat: 2 });
+  //   TweenMax.to(contentImg, 1, { scale: 1.3, ease: Power2.easeInOut, repeat: 2 });
+  console.log(e.code);
 });
 
 // Wheel
 
-contentImg.forEach(x => {
+textContent.forEach(x => {
   x.addEventListener("wheel", e => {
     e.preventDefault();
-    TweenMax.to(contentImg, 2, { y: -50 });
+    TweenMax.to(textContent, 2, { y: -20 });
   });
 });
 
+console.log();
+
+// Scroll
+
+window.addEventListener("scroll", e => {
+  if (window.pageYOffset === 0) {
+    header.style.backgroundColor = "#fff";
+  } else if (window.pageYOffset >= 330) {
+    TweenMax.to(header, 2, { backgroundColor: "#7ebfc3" });
+  }
+
+  e.stopPropagation();
+});
+
 // Load
-const logo = document.querySelector(".logo-heading");
 
 window.addEventListener("load", x => {
   TweenMax.to(logo, 1.5, { rotation: 360 });
@@ -55,12 +92,34 @@ window.addEventListener("load", x => {
 });
 
 // Drag
-contentImg.forEach(x => {
-  x.addEventListener("drag", e => {
-    TweenMax.to(contentImg, 2, { x: e.clientX, y: e.clientY });
-    console.log(e);
-  });
+
+contentImg[0].addEventListener("drag", function(event) {
+  console.log("dragged");
 });
+
+// Drop
+function dragstart_handler(event) {
+  console.log("dragStart");
+  // Change the source element's scale to signify the drag has started
+  event.target.style.scale = 1.2;
+  // Set the drag's format and data. Use the event target's id for the data
+  event.dataTransfer.setData("text/plain");
+}
+
+function dragover_handler(event) {
+  console.log("dragOver");
+  event.preventDefault();
+}
+
+function drop_handler(event) {
+  console.log("dragOver");
+  event.preventDefault();
+  // Get the data, which is the id of the drop target
+  const data = event.dataTransfer.getData("text");
+  event.target.src = data;
+  // Clear the drag data cache (for all formats/types)
+  event.dataTransfer.clearData();
+}
 
 // preventDefault
 
