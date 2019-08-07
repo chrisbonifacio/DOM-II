@@ -61,3 +61,11 @@ contentImg.forEach(x => {
     console.log(e);
   });
 });
+
+// preventDefault
+
+navLinks.forEach(x => {
+  x.addEventListener("click", e => {
+    e.preventDefault();
+  });
+});
